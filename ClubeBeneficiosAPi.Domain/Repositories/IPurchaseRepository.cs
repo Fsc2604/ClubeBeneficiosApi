@@ -11,8 +11,6 @@ namespace ClubeBeneficiosAPi.Domain.Repositories
     {
       
 
-        //Pega a Compra pelo Id
-        Task<Purchase> GetByIdAsync(int id);
 
         //Pega uma lista de Compras
         Task<ICollection<Purchase>> GetAllAsync();

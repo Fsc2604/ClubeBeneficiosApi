@@ -9,6 +9,6 @@ namespace ClubeBeneficiosAPi.Domain.Repositories
 {
     public interface IUserPermissionRepository
     {
-        Task<UserPermission?> GetUserByEmailAndPasswordAsync(string email);
+        Task<UserPermission?> GetUserByEmailAsync(string email);
     }
 }

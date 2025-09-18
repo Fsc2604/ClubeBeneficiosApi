@@ -24,7 +24,7 @@ namespace ClubeBeneficiosAPi.Domain.Entities
         public ICollection<Purchase> Purchases { get; private set; }
 
 
-        public ICollection<UserPermission> UserPermissions { get; private set; }
+        public UserPermission Permission { get; set; }
 
 
         public Client(string name, string email, string senha)

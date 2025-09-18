@@ -15,8 +15,8 @@ namespace ClubeBeneficiosApi.Infra.Data.Authentication
     {
         public dynamic Generator(Client client)
         {
-            var permission = client.UserPermissions != null && client.UserPermissions.Any()
-                ? string.Join(",", client.UserPermissions.Select(x => x.Role))
+            var permission = client.Permission != null
+                ? client.Permission.Role.ToString()
                 : string.Empty;
 
             var claims = new List<Claim>

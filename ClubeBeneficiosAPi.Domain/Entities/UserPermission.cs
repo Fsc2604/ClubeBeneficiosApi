@@ -17,6 +17,9 @@ namespace ClubeBeneficiosAPi.Domain.Entities
 
         public UserRole Role { get; private set; }
 
+        public int ClientId { get; set; }
+        public Client Client { get; set; }
+
 
         public UserPermission(string email, string passwordHash, UserRole role)
         {

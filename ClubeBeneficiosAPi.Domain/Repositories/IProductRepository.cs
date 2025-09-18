@@ -14,7 +14,7 @@ namespace ClubeBeneficiosAPi.Domain.Repositories
         Task<ICollection<Product>> GetProductsAsync();
 
         //Cria uma produto
-        Task<Client> CreateAsync(Product product);
+        Task<Product> CreateAsync(Product product);
 
         // Pega produtos filtrando por preço mínimo e máximo
         Task<ICollection<Product>> GetProductsByPriceAsync(decimal minPrice, decimal maxPrice);
