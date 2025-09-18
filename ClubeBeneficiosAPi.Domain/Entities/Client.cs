@@ -18,30 +18,33 @@ namespace ClubeBeneficiosAPi.Domain.Entities
         public string Name { get; set; }
         public string Email { get; set; }
 
-        public string Senha { get; set; }
+        public string Password { get; set; }
 
 
         public ICollection<Purchase> Purchases { get; private set; }
 
 
-        public Client(string Name, string Cpf, string Senha)
+        public ICollection<UserPermission> UserPermissions { get; private set; }
+
+
+        public Client(string name, string email, string senha)
         {
 
-            Validation(Name, Cpf, Senha);
+            Validation(name, email, senha);
 
 
         }
         /// <summary> Método para validação caso algum atributo esteja vazio < /summary>
-        private void Validation(string name, string email, string senha)
+        private void Validation(string name, string email, string password)
         {
             DomainValidationException.When(string.IsNullOrWhiteSpace(name), "Nome deve ser informado");
-            DomainValidationException.When(string.IsNullOrWhiteSpace(email), "Cpf deve ser informado");
-            DomainValidationException.When(string.IsNullOrWhiteSpace(senha), "Senha deva ser informada");
+            DomainValidationException.When(string.IsNullOrWhiteSpace(email), "Email deve ser informado");
+            DomainValidationException.When(string.IsNullOrWhiteSpace(password), "Senha deva ser informada");
 
 
             Name = name;
             Email = email;
-            Senha = senha;
+            Password = password;
         }
 
     }

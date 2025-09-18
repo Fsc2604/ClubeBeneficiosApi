@@ -28,7 +28,7 @@ namespace ClubeBeneficiosAPi.Domain.Entities
         private void Validation(int productId, int clientId)
         {
             DomainValidationException.When(productId <= 0, "Id Produto deve ser informado");
-            DomainValidationException.When(clientId <= 0, "Id Pessoa deve ser informado");
+            DomainValidationException.When(clientId <= 0, "Id Cliente deve ser informado");
       
 
             ProductId = productId;

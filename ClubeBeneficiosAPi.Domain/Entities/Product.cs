@@ -18,16 +18,16 @@ namespace ClubeBeneficiosAPi.Domain.Entities
         public ICollection<Purchase> Purchases { get; private set; }
 
 
-        public Product(int id, int name, string description, decimal price)
+        public Product(int id, string name, string description, decimal price)
         {
-          Validation(description, description, price);
+          Validation(name, description, price);
         }
 
         /// <summary> Método para validação caso algum atributo esteja vazio < /summary>
         private void Validation(string name, string description, decimal price)
         {
             DomainValidationException.When(string.IsNullOrEmpty(name), "Nome deve ser informado");
-            DomainValidationException.When(string.IsNullOrEmpty(description), "CodErp deve ser informado");
+            DomainValidationException.When(string.IsNullOrEmpty(description), "Descrição deve ser informada");
             DomainValidationException.When(price <= 0, "Preço deve ser informado");
 
             Name = name;
