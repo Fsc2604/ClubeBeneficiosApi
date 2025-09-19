@@ -27,12 +27,11 @@ namespace ClubeBeneficiosAPi.Domain.Entities
         public UserPermission Permission { get; set; }
 
 
-        public Client(string clientName, string email, string senha)
+        public Client(string clientName, string email, string password)
         {
 
-            Validation(clientName, email, senha);
-
-
+            Validation(clientName, email, password);
+        
         }
         /// <summary> Método para validação caso algum atributo esteja vazio < /summary>
         private void Validation(string clientName, string email, string password)
