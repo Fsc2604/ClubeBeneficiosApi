@@ -1,4 +1,5 @@
 ﻿using ClubeBeneficiosAPi.Domain.Authentication;
+using ClubeBeneficiosAPi.Domain.ClubeBeneficiosAPi.Domain.Enums;
 
 namespace ClubeBeneficios.API.Authentication
 {
@@ -6,7 +7,7 @@ namespace ClubeBeneficios.API.Authentication
     {
         public int Id { get; set; }
         public string Email { get; set; }
-        public string Permissions { get; set; }
+        public UserRole Role { get; set; }
 
         public CurrentUserInfo(IHttpContextAccessor httpContextAccessor)
         {
@@ -24,9 +25,9 @@ namespace ClubeBeneficios.API.Authentication
 
             }
 
-            if (claims.Any(x => x.Type == "Permissoes"))
+            if (claims.Any(x => x.Type == "Role"))
             {
-                Permissions = claims.First(x => x.Type == "Permissoes").Value;
+                Role = claims.First(x => x.Type == "Role").Value;
 
             }
         }

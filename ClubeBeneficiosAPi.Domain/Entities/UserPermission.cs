@@ -26,6 +26,15 @@ namespace ClubeBeneficiosAPi.Domain.Entities
             Validation(email, passwordHash, role);
         }
 
+
+        public void SetPasswordHash(string passwordHash)
+        {
+            if (string.IsNullOrWhiteSpace(passwordHash))
+                throw new ArgumentException("PasswordHash não pode ser vazio");
+
+            PasswordHash = passwordHash;
+        }
+
         private void Validation(string email, string passwordHash, UserRole role)
         {
             DomainValidationException.When(string.IsNullOrEmpty(email), "Email deve ser informado");

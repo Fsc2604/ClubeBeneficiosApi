@@ -11,7 +11,7 @@ namespace ClubeBeneficiosApi.Application.Interfaces
     {
 
      
-        Task<ReturnFrontService<ClientDto>> CreateAsync(ClientDto clientDTO);
+        Task<ReturnFrontService<ClientDto>> CreateAsync(ClientDto clientDTO, UserPermissionDto userPermissionDto);
 
         Task<ReturnFrontService<ICollection<ClientDto>>> GetAllClientsAsync();
 

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BCrypt.Net;
 
 namespace ClubeBeneficiosApi.Application.Services
 {
@@ -31,13 +32,23 @@ namespace ClubeBeneficiosApi.Application.Services
 
             var validator = new UserPermissionDtoValidator().Validate(userPermissionDto);
             if (!validator.IsValid)
-                return ReturnFrontService.RequestError<dynamic>("Problemas com a validacão", validator);
+                return ReturnFrontService.RequestError<dynamic>("Problemas com a validação", validator);
 
+         
             var user = await _userPermissionRepository.GetUserByEmailAsync(userPermissionDto.Email);
             if (user == null)
                 return ReturnFrontService.Fail<dynamic>("Usuário ou Senha não encontrado!");
 
-            return ReturnFrontService.Ok(_tokenGenerator.Generator(user));
+         
+            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(userPermissionDto.Password, user.PasswordHash);
+            if (!isPasswordValid)
+                return ReturnFrontService.Fail<dynamic>("Usuário ou Senha não encontrado!");
+
+            if (user.Client == null)
+                return ReturnFrontService.Fail<dynamic>("Cliente associado não encontrado!");
+
+          
+            return ReturnFrontService.Ok(_tokenGenerator.Generator(user.Client));
         }
 
     }

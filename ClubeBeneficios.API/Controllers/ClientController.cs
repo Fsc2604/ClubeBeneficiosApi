@@ -1,6 +1,7 @@
 ﻿using ClubeBeneficiosApi.Application.DTOs;
 using ClubeBeneficiosApi.Application.Interfaces;
 using ClubeBeneficiosAPi.Domain.Authentication;
+using ClubeBeneficiosAPi.Domain.ClubeBeneficiosAPi.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClubeBeneficios.API.Controllers
@@ -11,24 +12,29 @@ namespace ClubeBeneficios.API.Controllers
     {
         private readonly IClientService _clientService;
         private readonly ICurrentUserInfo _currentUserInfo;
-        private List<string> _permissionNedeed = new List<string>() { "Admin" };
+        private readonly List<UserRole> _permissionNeeded = new List<UserRole> { UserRole.Admin, UserRole.Client };
 
 
         public ClientController(IClientService clientService, ICurrentUserInfo currentUserInfo)
         {
             _clientService = clientService;
             _currentUserInfo = currentUserInfo;
-            _permissionNedeed = _currentUserInfo?.Permissions?.Split(",")?.ToList() ?? new List<string>();
+        
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] ClientDto clientDto)
+        public async Task<IActionResult> PostAsync([FromBody] ClientDto clientDto, UserPermissionDto userPermissionDto)
         {
-              _permissionNedeed.Add("CadastraPessoa");
-             if(!ValidPermission(_permissionNedeed, _permissionNedeed))
-              return Forbidden();
+        
+            var permissionNeeded = new List<UserRole> { UserRole.Admin, UserRole.Client };
 
-            var result = await _clientService.CreateAsync(clientDto);
+         
+            var userRole = _currentUserInfo.Permissions; 
+
+            if (!permissionNeeded.Contains(userRole))
+                return Forbidden();
+
+            var result = await _clientService.CreateAsync(clientDto, userPermissionDto);
             if (result.IsSucess)
                 return Ok(result);
 

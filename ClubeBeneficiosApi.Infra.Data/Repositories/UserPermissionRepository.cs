@@ -24,5 +24,14 @@ namespace ClubeBeneficiosApi.Infra.Data.Repositories
 
             return await getUser;
         }
+
+        public async Task<UserPermission> CreateAsync(UserPermission userPermission)
+        {
+            _connectionDbContext.UserPermissions.Add(userPermission);
+            await _connectionDbContext.SaveChangesAsync();
+            return userPermission;
+        }
+
+    
     }
 }

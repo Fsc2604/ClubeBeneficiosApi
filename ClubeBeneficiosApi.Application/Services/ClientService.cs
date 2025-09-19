@@ -16,36 +16,53 @@ namespace ClubeBeneficiosApi.Application.Services
      {
 
         private readonly IClientRepository _clientRepository;
+        private readonly IUserPermissionRepository _userPermissionRepository;
         private readonly IMapper _mapper;
 
-        public ClientService(IClientRepository clientRepository, IMapper mapper)
+        public ClientService(IClientRepository clientRepository, IMapper mapper, IUserPermissionRepository userPermissionRepository)
         {
 
             _clientRepository = clientRepository;
             _mapper = mapper;
-
-            
+            _userPermissionRepository = userPermissionRepository;
         }
 
-        public async Task<ReturnFrontService<ClientDto>> CreateAsync(ClientDto clientDTO)
+        public async Task<ReturnFrontService<ClientDto>> CreateAsync(ClientDto clientDto, UserPermissionDto userPermissionDto)
         {
-            if (clientDTO == null)
+            var clientValidator = new ClientDtoValidator().Validate(clientDto);
+            if (!clientValidator.IsValid)
+                return ReturnFrontService.RequestError<ClientDto>("Problemas com a validação do cliente", clientValidator);
 
-                return ReturnFrontService.Fail<ClientDto>("Objeto Deve ser  informado");
+            var userValidator = new UserPermissionDtoValidator().Validate(userPermissionDto);
+            if (!userValidator.IsValid) ;
+
+        
+            var client = _mapper.Map<Client>(clientDto);
+
+
             
-           var result = new ClientDtoValidator().Validate(clientDTO);
-            if(!result.IsValid)
-             return ReturnFrontService.RequestError<ClientDto>("Problemas de validacao", result);
 
-            //Transforma Dto em entidade
-            var client = _mapper.Map<Client>(clientDTO);
-            var data = await _clientRepository.CreateAsync(client);
+            var userPermission = _mapper.Map<UserPermission>(userPermissionDto);
 
-            //Retorna Dto para o Front
-            return ReturnFrontService.Ok<ClientDto>(_mapper.Map<ClientDto>(data));
+
+            userPermission.SetPasswordHash(BCrypt.Net.BCrypt.HashPassword(userPermissionDto.Password));
+
+
+            await _userPermissionRepository.CreateAsync(userPermission);
+
+        
+            client.Permission = userPermission;
+
+        
+            await _clientRepository.CreateAsync(client);
+
+
+            var clientToDtoAgain = _mapper.Map<ClientDto>(client);
+
+            return ReturnFrontService.Ok(clientToDtoAgain);
         }
 
-       
+
 
         public async Task<ReturnFrontService<ICollection<ClientDto>>> GetAllClientsAsync()
         {
@@ -61,6 +78,11 @@ namespace ClubeBeneficiosApi.Application.Services
                 return ReturnFrontService.Fail<ClientDto>("Cliente  não encontrado!");
 
             return ReturnFrontService.Ok(_mapper.Map<ClientDto>(client));
+        }
+
+        Task<ReturnFrontService<ClientDto>> IClientService.CreateAsync(ClientDto clientDTO, UserPermissionDto userPermissionDto)
+        {
+            throw new NotImplementedException();
         }
     }
 }
