@@ -24,12 +24,6 @@ namespace ClubeBeneficios.API.Authentication
                 Email = claims.First(x => x.Type == "Email").Value;
 
             }
-
-            if (claims.Any(x => x.Type == "Role"))
-            {
-                Role = claims.First(x => x.Type == "Role").Value;
-
-            }
         }
     }
 }

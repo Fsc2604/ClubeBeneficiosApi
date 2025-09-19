@@ -9,7 +9,8 @@ namespace ClubeBeneficiosAPi.Domain
     namespace ClubeBeneficiosAPi.Domain.Enums
     {
         public enum UserRole
-        {
+        {   
+            None, // Usado só para testes unitários
             Admin = 1,
             Client = 2
         }
