@@ -16,8 +16,7 @@ namespace ClubeBeneficiosAPi.Domain.Repositories
             //Cria uma Cliente
             Task<Client> CreateAsync(Client client);
 
-            //Deleta uma Cliente
-            Task DeleteAsync(Client client);
+            Task<Client> GetByIdAsync(int clientId);
 
     }
 }

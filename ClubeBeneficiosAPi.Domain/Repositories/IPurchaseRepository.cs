@@ -20,8 +20,6 @@ namespace ClubeBeneficiosAPi.Domain.Repositories
 
         //Cria uma Compra
         Task<Purchase> CreateAsync(Purchase purchase);
-
-        //Deleta uma Compra
-        Task DeleteAsync(Purchase purchase);
+        Task GetByClientIdAsync(Func<object, bool> value);
     }
 }

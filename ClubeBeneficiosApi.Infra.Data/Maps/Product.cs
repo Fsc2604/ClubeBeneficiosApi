@@ -26,7 +26,7 @@ namespace ClubeBeneficiosApi.Infra.Data.Maps
           .HasColumnName("idcliente")
           .UseIdentityColumn();
 
-            builder.Property(x => x.Name)
+            builder.Property(x => x.ProductName)
             .HasColumnName("name");
 
             builder.Property(x => x.Description)

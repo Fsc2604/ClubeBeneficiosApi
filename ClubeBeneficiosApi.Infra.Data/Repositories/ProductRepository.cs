@@ -13,35 +13,34 @@ namespace ClubeBeneficiosApi.Infra.Data.Repositories
     public class ProductRepository : IProducttRepository
     {
 
-        private readonly ConnectionDbContext _ConnectionDbContext;
+        private readonly ConnectionDbContext _connectionDbContext;
 
         public ProductRepository(ConnectionDbContext connectionDbContext)
         {
-            _ConnectionDbContext = connectionDbContext;
+            _connectionDbContext = connectionDbContext;
         }
  
 
         public async Task<Product> CreateAsync(Product product)
         {
-            _ConnectionDbContext.Add(product);
-            await _ConnectionDbContext.SaveChangesAsync();
+            _connectionDbContext.Add(product);
+            await _connectionDbContext.SaveChangesAsync();
             return product; 
         }
 
-        public async Task DeleteAsync(Product product)
+        public async Task<Product> GetByIdAsync(int productId)
         {
-            _ConnectionDbContext.Remove(product);
-            await _ConnectionDbContext.SaveChangesAsync();
+            return await _connectionDbContext.Product.FirstOrDefaultAsync(c => c.Id == productId);
         }
 
         public async Task<ICollection<Product>> GetProductsAsync()
         {
-            return await _ConnectionDbContext.Product.ToListAsync();
+            return await _connectionDbContext.Product.ToListAsync();
         }
 
         public  async Task<ICollection<Product>> GetProductsByPriceAsync(decimal minPrice, decimal maxPrice)
         {
-            var Filterproducts  = _ConnectionDbContext.Product.Where(pr => pr.Price >= minPrice && pr.Price <= maxPrice)
+            var Filterproducts  = _connectionDbContext.Product.Where(pr => pr.Price >= minPrice && pr.Price <= maxPrice)
                 .OrderBy(pr =>  pr.Price)
                 .ToListAsync();
 

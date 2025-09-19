@@ -12,29 +12,28 @@ namespace ClubeBeneficiosApi.Infra.Data.Repositories
 {
     public class ClientRepository : IClientRepository
     {
-        private readonly ConnectionDbContext _ConnectionDbContext;
+        private readonly ConnectionDbContext _connectionDbContext;
         public ClientRepository(ConnectionDbContext connectionDbContext)
         {
-            _ConnectionDbContext = connectionDbContext;
+            _connectionDbContext = connectionDbContext;
         }
 
         public async Task<Client> CreateAsync(Client client)
         {
-            _ConnectionDbContext.Add(client);
-            await _ConnectionDbContext.SaveChangesAsync();
+            _connectionDbContext.Add(client);
+            await _connectionDbContext.SaveChangesAsync();
 
             return client;
         }
 
-        public async Task DeleteAsync(Client client)
+        public async Task<Client> GetByIdAsync(int clientId)
         {
-            _ConnectionDbContext.Remove(client);
-            await _ConnectionDbContext.SaveChangesAsync();
+            return await _connectionDbContext.Client.FirstOrDefaultAsync(c => c.Id == clientId);
         }
 
         public async Task<ICollection<Client>> GetClientsAsync()
         {
-            return await _ConnectionDbContext.Client.ToListAsync();
+            return await _connectionDbContext.Client.ToListAsync();
 
         }
         

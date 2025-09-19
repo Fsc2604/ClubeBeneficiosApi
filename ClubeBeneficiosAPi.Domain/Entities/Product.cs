@@ -11,26 +11,26 @@ namespace ClubeBeneficiosAPi.Domain.Entities
    public sealed class Product {
 
         public int Id { get; set; }
-        public string Name{ get; set; }
+        public string ProductName { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
 
         public ICollection<Purchase> Purchases { get; private set; }
 
 
-        public Product(int id, string name, string description, decimal price)
-        {
-          Validation(name, description, price);
+        public Product(string productName, string description, decimal price) { 
+        
+          Validation(productName, description, price);
         }
 
         /// <summary> Método para validação caso algum atributo esteja vazio < /summary>
-        private void Validation(string name, string description, decimal price)
+        private void Validation(string productName, string description, decimal price)
         {
-            DomainValidationException.When(string.IsNullOrEmpty(name), "Nome deve ser informado");
+            DomainValidationException.When(string.IsNullOrEmpty(productName), "Nome deve ser informado");
             DomainValidationException.When(string.IsNullOrEmpty(description), "Descrição deve ser informada");
             DomainValidationException.When(price <= 0, "Preço deve ser informado");
 
-            Name = name;
+            ProductName = productName;
             Description = description;
             Price = price;
         }

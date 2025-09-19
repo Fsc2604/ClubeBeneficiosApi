@@ -19,8 +19,7 @@ namespace ClubeBeneficiosAPi.Domain.Repositories
         // Pega produtos filtrando por preço mínimo e máximo
         Task<ICollection<Product>> GetProductsByPriceAsync(decimal minPrice, decimal maxPrice);
 
-        //Deleta um produto 
-        Task DeleteAsync(Product product);
+        Task<Product> GetByIdAsync(int productId);
 
     }
 }

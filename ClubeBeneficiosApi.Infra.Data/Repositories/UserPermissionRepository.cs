@@ -12,15 +12,15 @@ namespace ClubeBeneficiosApi.Infra.Data.Repositories
 {
     public class UserPermissionRepository : IUserPermissionRepository
     {
-        private readonly ConnectionDbContext _ConnectionDbContext;
+        private readonly ConnectionDbContext _connectionDbContext;
         public UserPermissionRepository(ConnectionDbContext connectionDbContext) { 
         
-            _ConnectionDbContext = connectionDbContext;
+            _connectionDbContext = connectionDbContext;
         
         }
         public async Task<UserPermission?> GetUserByEmailAsync(string email)
         {
-            var getUser = _ConnectionDbContext.UserPermissions.FirstOrDefaultAsync(e => e.Email == email);
+            var getUser = _connectionDbContext.UserPermissions.FirstOrDefaultAsync(e => e.Email == email);
 
             return await getUser;
         }
